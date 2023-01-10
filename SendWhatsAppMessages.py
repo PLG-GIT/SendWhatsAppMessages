@@ -271,7 +271,7 @@ def send_messages():
     global msg_browser
 
     # change button label to Stop and activate stop sending function
-    btn_send.configure(text='Stop Process',command=stop_sending)
+    btn_send.configure(text='PARAR PROCESSO',command=stop_sending)
     
     # Count total number of messages to send
     msg_total = contacts_df['MENSAGEM'].count()
@@ -308,9 +308,9 @@ def send_messages():
         # Get customer name and number
         name = contacts_df.loc[j,"CLIENTE"]
         phone = contacts_df.loc[j, "TELEFONE"]
-
-       
+        
         # Update status label
+        # lbl_sending['text'] = 'Enviando mensagem {} de {} ({:.0%})\nPara {} no telefone {}'.format(j+1,msg_total,(j+1)/msg_total,name,phone)
         lbl_sending['text'] = 'Enviando mensagem {} de {} ({:.1%})\nPara {} no telefone {}\n{:.1%} de envios falhados'.format(j+1,msg_total,(j+1)/msg_total,name,phone,fails)
         mainwindow.update()
 
@@ -392,18 +392,23 @@ def send_messages():
         fails = len(contacts_df[contacts_df['RESULTADO'] == 'NÃO recebeu a mensagem'])/(j+1)
     
     # Sending Loop ends here
-    
+
     # calculate total sent
     total_sent = len(contacts_df[contacts_df['RESULTADO'].str.contains('Recebeu') == True])
     total_fails = len(contacts_df[contacts_df['RESULTADO'] == 'NÃO recebeu a mensagem'])
 
+    # lbl_slctdfile['text'] = 'PROCESSO FINALIZADO'
+    # lbl_sending['text'] = ''
+    
     lbl_slctdfile['text'] = 'PROCESSO FINALIZADO\n{} Mensagens enviadas\nEnvios falhados: {} ({:.1%})'.format(total_sent,total_fails,fails)
     lbl_sending['text'] = ''
+    btn_send.configure(text='')
 
     # save results dataframe on same location (path) of message file 
     result_file = '{}\Resultado Envios {}.xlsx'.format(Path(tk_file_path.get()).parent,dt.datetime.now().strftime('%d-%m-%y %H-%M-%S'))
     result_df = contacts_df[['CLIENTE','TELEFONE','RESULTADO']]
     result_df.to_excel(result_file,index=False)
+    # contacts_df.to_excel(result_file,index=False)
     
     return()
 
@@ -416,53 +421,54 @@ mainwindow = tk.Tk()
 
 # %%
 # Main window title
-mainwindow.title("Send messages via WhatsApp")
+mainwindow.title("Enviar mensagens pelo WhatsApp")
 
 # %%
 # Main window label title
-lbl_title = tk.Label(text="Sent messages via WhatsApp",font=('Consolas 15 bold underline'),borderwidth=1, relief='solid')
+lbl_title = tk.Label(text="Enviar mensagens pelo WhatsApp",font=('Consolas 15 bold underline'),borderwidth=1, relief='solid')
 lbl_title.grid(row=0, column=0,columnspan=3,sticky='NSEW',padx=10,pady=10)
 
 # %%
 # Explaining label
 lbl_desc = tk.Label(text=
-    """This program sent messages through WhatsApp Web,
-    together with images, from a list in Excel format.  
-    The list must contain the following fields or columns:
-    Nome, Telefone and Mensagens, in a sheet Clientes
-    Each message can be personalized. At the end, stores the
-    results in another Excel file"""
+    """Esta aplicação envia mensagens a través do WhatsApp Web
+    junto com imagens, a partir de uma lista em formato Excel.
+    A lista deve conter as seguintes colunas:
+    NOME, TELEFONE, MENSAGENS, numa folha CLIENTES.
+    Cada mensagen pôde ser personalizada. No final, armazena os
+    resultados dos envios num outro arquivo Excel na mesma pasta
+    do arquivo original."""
     ,font=('Consolas 10'),borderwidth=1, relief='solid')
 lbl_desc.grid(row=1, column=0, columnspan=3,sticky='NSEW',padx=10,pady=10) 
 
 # %%
 # Excel file selection label
-lbl_file = tk.Label(text='Select Excel file with customers, phones and messages:',font=('Consolas 12'),anchor='e')
+lbl_file = tk.Label(text='Selecione o arquivo Excel com os dados:',font=('Consolas 12'),anchor='e')
 lbl_file.grid(row=3,column=0,columnspan=2,sticky='NSEW',padx=10,pady=10)
 
 # %%
 # Excel file selecion button
-btn_file = tk.Button(text='Click here to select the file',font=('Consolas 10 bold'),wraplength=100,borderwidth=1,command=sel_file)
+btn_file = tk.Button(text='Clique aqui para selecionar o arquivo',font=('Consolas 10 bold'),wraplength=100,borderwidth=1,command=sel_file)
 btn_file.grid(row=3,column=2,sticky='NSEW',padx=10,pady=10)
 
 # %%
 # Label with selected Excel file (none at begining, then will show number of message to send)
-lbl_slctdfile = tk.Label(text='No file selected',wraplength=500,font=('Consolas 12'),anchor='center')
+lbl_slctdfile = tk.Label(text='Sem arquivo selecionado',wraplength=500,font=('Consolas 12'),anchor='center')
 lbl_slctdfile.grid(row=4,column=0,columnspan=3,sticky='NSEW',padx=10,pady=10)
 
 # %%
 # Image selection label
-lbl_imgs = tk.Label(text='Select images to send:',font=('Consolas 12'),anchor='e')
+lbl_imgs = tk.Label(text='Selecione as imagens a enviar:',font=('Consolas 12'),anchor='e')
 lbl_imgs.grid(row=2,column=0,columnspan=2,sticky='NSEW',padx=10,pady=10)
 
 # %%
 # Image selection button
-btn_imgs = tk.Button(text='Click here to select images',font=('Consolas 10 bold'),wraplength=100,borderwidth=1,command=sel_imgs)
+btn_imgs = tk.Button(text='Clique aqui para selecionar as imagens',font=('Consolas 10 bold'),wraplength=100,borderwidth=1,command=sel_imgs)
 btn_imgs.grid(row=2,column=2,sticky='NSEW',padx=10,pady=10)
 
 # %%
 # Main process start button
-btn_send = tk.Button(text='Send messages',font=('Consolas 10 bold'),command=send_messages)
+btn_send = tk.Button(text='ENVIAR MENSAGENS',font=('Consolas 10 bold'),command=send_messages)
 btn_send.grid(row=5,column=0,columnspan=3,sticky='NSEW',padx=10,pady=10)
 
 # %%
@@ -483,10 +489,10 @@ txt_sent.insert(tk.INSERT,'')
 
 # %%
 # label for initial time, eta and progress percent
-lbl_init_time = tk.Label(text='Initial Time',wraplength=500,font=('Consolas 12'),anchor='center')
+lbl_init_time = tk.Label(text='Tempo inicial',wraplength=500,font=('Consolas 12'),anchor='center')
 lbl_init_time.grid(row=6,column=3,columnspan=3, sticky='NSEW',padx=10,pady=10)
 
-lbl_eta = tk.Label(text='Final Estimated Time',wraplength=500,font=('Consolas 12'),anchor='center')
+lbl_eta = tk.Label(text='Tempo final estimado',wraplength=500,font=('Consolas 12'),anchor='center')
 lbl_eta.grid(row=7,column=3,columnspan=3, sticky='NSEW',padx=10,pady=10)
 
 # %%
