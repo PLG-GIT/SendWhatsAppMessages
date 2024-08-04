@@ -367,8 +367,12 @@ def send_messages():
                 # now start to send images
                 for i, img_file in enumerate(imgs_path):
                     # look up for the + sign and click
-                    msg_browser.find_element(By.CSS_SELECTOR,"span[data-icon='attach-menu-plus']").click()
+
+                    # modificado em 03-Aug-2024
+                    # msg_browser.find_element(By.CSS_SELECTOR,"span[data-icon='attach-menu-plus']").click()
+                    msg_browser.find_element(By.CSS_SELECTOR,"#main > footer > div._ak1k.xnpuxes.copyable-area > div > span:nth-child(2) > div > div._ak1t._ak1m > div._ak1o > div > div > div > span").click() 
                     tksleep(1)
+                    
                     # open the image selection window and send the keys
                     msg_browser.find_element(By.XPATH,'//*[@id="main"]/footer/div[1]/div/span[2]/div/div[1]/div[2]/div/span/div/ul/div/div[2]/li/div/input').send_keys(img_file)
                     tksleep(1)
