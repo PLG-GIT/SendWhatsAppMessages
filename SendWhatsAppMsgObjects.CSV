@@ -1,0 +1,7 @@
+Object;Type;String
+botao_envio_ccs;CSS_SELECTOR;[aria-label='Enviar']
+popup_ccs;CSS_SELECTOR;[aria-label='O número de telefone compartilhado por url é inválido.']
+popup_ok_ccs;CSS_SELECTOR;#app > div > span:nth-child(3) > div > span > div > div > div > div > div > div.x78zum5.x8hhl5t.x13a6bvl.x13crsa5.x1mpkggp.x18d9i69.x1t2a60a.xp4054r.xuxw1ft > div > button
+botao_anexar;CSS_SELECTOR;[aria-label='Anexar']
+fotos_e_videos;XPATH;//*[@id="app"]/div/span[5]/div/ul/div/div/div[2]/li/div/input
+botao_enviar_imagens;CSS_SELECTOR;[aria-label='Enviar']
