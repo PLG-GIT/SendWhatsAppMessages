@@ -5,6 +5,7 @@ objects = {
     'add_attachment_btn': '[data-icon=\"plus-rounded\"]',
     'send_attachment_btn': '[data-icon=\"wds-ic-send-filled\"]',
     'pictures_and_videos_btn': '//*[@id="app"]/div[1]/div/span[6]/div/ul/div/div/div[2]/li/div/input'
-}
+} 
 
-# previous pictures_and_videos_btn = '//*[@id="app"]/div[1]/span[6]/div/ul/div/div/div[2]/li/div/input'
+# previous
+# 'pictures_and_videos_btn': # '//*[@id="app"]/div[1]/span[6]/div/ul/div/div/div[2]/li/div/input'
